@@ -1,0 +1,59 @@
+### Not work
+GET http://localhost:1323
+
+### Index
+GET http://localhost:1323/users
+
+### Create - FormValue로 불러올 경우 / 안 씀
+POST http://localhost:1323/users
+Content-Type: application/x-www-form-urlencoded
+# username=mast
+# &password=123
+# &email=haha@haha.com
+
+### Create - Bind로 불러올 경우
+POST http://localhost:1323/users
+content-type: application/json
+
+{
+    "id": 1,
+    "username" : "mast",
+    "email" : "liverty@liberty.union",
+    "password" : "123"
+}
+
+### Read
+GET http://localhost:1323/users/1
+
+### Update
+PUT http://localhost:1323/users
+content-type: application/json
+
+{
+    "id" : 1,
+    "username" : "Master",
+    "email" : "master@master.gov" ,
+    "password" : "12345"
+}
+
+### Delete - token not yet work
+DELETE http://localhost:1323/users/19
+content-type: application/json
+
+{
+    "user": "ㅋㄷ",
+    "token": "버스토큰 택시토큰 지하철토큰 뱅기 토큰"
+}
+
+### JWT - Login
+POST http://localhost:1323/login
+content-type: application/json
+
+{
+    "username" : "jon",
+    "password" : "shhh!"
+}
+
+### JWT - Restricted contents
+GET http://localhost:1323/restricted
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9uIFNub3ciLCJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTM3Nzk5MjY4fQ.9S8CPnyT_1LQly5xZhIrS0kSPuKwv5yX1MnQq5xX5GV_ghBd7RxDaS67Drv9yW4r0W8LGjoRv2aHEEGowEUv5A
