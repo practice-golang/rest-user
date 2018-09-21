@@ -87,15 +87,12 @@ func main() {
 	e.POST("/login", auth.Login)
 
 	// Routes - Restricted
-	// rGets := []string{"/restricted"}
-	// for _, rGet := range rGets {
-	// 	r := e.Group(rGet)
-	// 	r.Use(middleware.JWTWithConfig(config))
-	// 	r.GET("", auth.Restricted)
-	// }
-	r := e.Group("/restricted")
-	r.Use(middleware.JWTWithConfig(config))
-	r.GET("", auth.Restricted)
+	rGets := []string{"/restricted"}
+	for _, rGet := range rGets {
+		r := e.Group(rGet)
+		r.Use(middleware.JWTWithConfig(config))
+		r.GET("", auth.Restricted)
+	}
 
 	// Start server
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
