@@ -13,7 +13,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
 	golang.org/x/crypto v0.0.0-20180910181607-0e37d006457b // indirect
-	golang.org/x/sys v0.0.0-20180920110915-d641721ec2de // indirect
+	golang.org/x/sys v0.0.0-20180926160741-c2ed4eda69e7 // indirect
 )
 
 replace dbusers => ../dbusers

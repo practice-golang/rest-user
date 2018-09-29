@@ -4,7 +4,6 @@ import (
 	"auth"
 	"dbusers"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -38,8 +37,12 @@ func CreateUser(c echo.Context) error {
 
 // GetUser : Get an user information
 func GetUser(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	return c.JSON(http.StatusOK, users[id])
+	u := new(dbusers.User)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, users[u.ID])
 }
 
 // UpdateUser : Change user information
@@ -56,8 +59,12 @@ func UpdateUser(c echo.Context) error {
 
 // DeleteUser : Delete an user
 func DeleteUser(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	delete(users, id)
+	u := new(dbusers.User)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+
+	delete(users, u.ID)
 
 	return c.NoContent(http.StatusNoContent)
 }
@@ -79,9 +86,9 @@ func main() {
 	e.GET("/", accessible)
 
 	e.POST("/users", CreateUser)
-	e.GET("/users/:id", GetUser)
+	e.GET("/users", GetUser)
 	e.PUT("/users", UpdateUser)
-	e.DELETE("/users/:id", DeleteUser)
+	e.DELETE("/users", DeleteUser)
 
 	// Routes - JWT Auth
 	e.POST("/login", auth.Login)
