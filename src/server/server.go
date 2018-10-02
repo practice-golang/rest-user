@@ -11,6 +11,7 @@ import (
 
 var (
 	users = map[int]*dbusers.User{}
+	table = "users"
 	seq   = 1
 )
 
@@ -29,16 +30,22 @@ func CreateUser(c echo.Context) error {
 		return err
 	}
 
-	users[u.ID] = u
-	seq++
+	userHolder := dbusers.SQLDB{
+		Table: table,
+	}
+	seq, _ = userHolder.InsertUser(u)
 
+	users[u.ID] = u
+	// seq++
 	return c.JSON(http.StatusCreated, users[u.ID])
 }
 
 // GetUser : Get an user information
 func GetUser(c echo.Context) error {
 	u := new(dbusers.User)
-	if err := c.Bind(u); err != nil {
+
+	err := c.Bind(u)
+	if err != nil {
 		return err
 	}
 
@@ -51,9 +58,13 @@ func UpdateUser(c echo.Context) error {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
-
+	
+	userHolder := dbusers.SQLDB{
+		Table: table,
+	}
+	seq, _ = userHolder.UpdateUser(u)
+	
 	users[u.ID] = u
-
 	return c.JSON(http.StatusOK, users[u.ID])
 }
 
@@ -70,6 +81,11 @@ func DeleteUser(c echo.Context) error {
 }
 
 func main() {
+	userHolder := dbusers.SQLDB{
+		Table: table,
+	}
+	userHolder.CreateTable()
+
 	e := echo.New()
 
 	config := middleware.JWTConfig{
