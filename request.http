@@ -1,12 +1,20 @@
 ### Not work
 GET http://localhost:1323
 
-### Index
+### Index - User List
 GET http://localhost:1323/users
 content-type: application/json
 
 {
     "id": 0
+}
+
+### Index - User Info of id #1
+GET http://localhost:1323/users
+content-type: application/json
+
+{
+    "id": 1
 }
 
 ### Create - FormValue로 불러올 경우 / 안 씀
@@ -30,10 +38,10 @@ PUT http://localhost:1323/users
 content-type: application/json
 
 {
-    "id" : 1,
-    "username" : "master",
-    "email" : "master@master.gov" ,
-    "password" : "12345"
+    "id" : 7,
+    "username" : "mastery",
+    "email" : "master@middle.earth" ,
+    "password" : "123456"
 }
 
 ### Delete - token not yet work
@@ -49,8 +57,8 @@ POST http://localhost:1323/login
 content-type: application/json
 
 {
-    "username" : "jon",
-    "password" : "shhh!"
+    "username" : "master",
+    "password" : "12345"
 }
 
 ### JWT - Login
@@ -58,8 +66,8 @@ POST http://localhost:1323/login
 content-type: application/json
 
 {
-    "username" : "master",
-    "password" : "12345"
+    "username" : "mastery",
+    "password" : "123456"
 }
 
 ### JWT - Restricted contents

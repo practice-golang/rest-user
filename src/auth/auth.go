@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"net/http"
 	"settings"
 	"strconv"
@@ -35,14 +34,15 @@ func Login(c echo.Context) error {
 
 	userExist, _ := userHolder.GetUserLogin(u)
 
-	fmt.Print(u.Username)
-	fmt.Print("/")
-	fmt.Println(u.Password)
-
 	if userExist {
+		isAdmin := false
+		if u.Username == "master" {
+			isAdmin = true
+		}
+
 		claims := &CustomClaims{
 			// "Jon Snow", true,
-			u.Username, true,
+			u.Username, isAdmin,
 			jwt.StandardClaims{
 				ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 			},
