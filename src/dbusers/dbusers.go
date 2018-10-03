@@ -57,7 +57,7 @@ func (userHolder *SQLDB) CreateTable() (err error) {
 
 	result, err := userHolder.DB.Exec(que)
 	if err != nil {
-		fmt.Println("Table Creation Error: ", result, err)
+		log.Fatal("Table Creation Error: ", result, err)
 	}
 
 	return
@@ -68,14 +68,36 @@ func (userHolder *SQLDB) GetUser(id int) (result User, err error) {
 	userHolder.DB = dbConn()
 	defer userHolder.DB.Close()
 
-	rows, err := userHolder.DB.Query(`SELECT "id", "username", "email" FROM "`+userHolder.Table+`" WHERE "_id"=$1`, id)
+	rows, err := userHolder.DB.Query(`SELECT "_id", "username", "email" FROM "`+userHolder.Table+`" WHERE "_id"=$1`, id)
+	// rows, err := userHolder.DB.Query(`SELECT * FROM "`+userHolder.Table+`" WHERE "_id"=$1`, id)
 	if err == nil {
 		for rows.Next() {
 			// err = rows.Scan(&result.ID, &result.Username, &result.Email, &result.Password, &result.Auth)
 			err = rows.Scan(&result.ID, &result.Username, &result.Email)
 			if err != nil {
-				fmt.Println("Get Book Error: ", err)
+				log.Fatal("Error: ", err)
 			}
+		}
+	}
+
+	return
+}
+
+// GetUsers - cRud
+func (userHolder *SQLDB) GetUsers() (results []User, err error) {
+	userHolder.DB = dbConn()
+	defer userHolder.DB.Close()
+
+	rows, err := userHolder.DB.Query(`SELECT "_id", "username", "email" FROM "` + userHolder.Table + `" ORDER BY "_id" ASC`)
+	if err == nil {
+		for rows.Next() {
+			var result User
+			err = rows.Scan(&result.ID, &result.Username, &result.Email)
+			if err != nil {
+				log.Fatal("Error: ", err)
+			}
+
+			results = append(results, result)
 		}
 	}
 

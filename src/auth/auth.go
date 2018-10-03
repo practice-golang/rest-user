@@ -39,17 +39,26 @@ func Login(c echo.Context) error {
 	fmt.Print("/")
 	fmt.Println(u.Password)
 
-	// if username == "jon" && password == "shhh!" {
 	if userExist {
 		claims := &CustomClaims{
-			"Jon Snow", true,
+			// "Jon Snow", true,
+			u.Username, true,
 			jwt.StandardClaims{
 				ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 			},
 		}
 
-		// token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
+		var jwtMethod *jwt.SigningMethodHMAC
+		switch settings.JwtSigningMethod {
+		case "HS256":
+			jwtMethod = jwt.SigningMethodHS256
+		case "HS384":
+			jwtMethod = jwt.SigningMethodHS384
+		case "HS512":
+			jwtMethod = jwt.SigningMethodHS512
+		}
+
+		token := jwt.NewWithClaims(jwtMethod, claims)
 
 		t, err := token.SignedString([]byte("mySecret"))
 		if err != nil {
@@ -69,5 +78,5 @@ func Restricted(c echo.Context) error {
 	claims := user.Claims.(*CustomClaims)
 	name := claims.Name
 
-	return c.String(http.StatusOK, "Welcome "+name+"!"+" Admin: "+strconv.FormatBool(claims.Admin))
+	return c.String(http.StatusOK, "Welcome "+name+" ! / Admin: "+strconv.FormatBool(claims.Admin))
 }

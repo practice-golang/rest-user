@@ -1,10 +1,11 @@
 package main
 
 import (
-	"settings"
+	"log"
 	"auth"
 	"dbusers"
 	"net/http"
+	"settings"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -21,26 +22,21 @@ func accessible(c echo.Context) error {
 
 // CreateUser : Create an user
 func CreateUser(c echo.Context) error {
-	u := &dbusers.User{
-		ID: seq,
-	}
+	u := &dbusers.User{}
 
 	err := c.Bind(u)
 	if err != nil {
 		return err
 	}
 
-	userHolder := dbusers.SQLDB{
-		Table: settings.UserTable,
-	}
+	userHolder := dbusers.SQLDB{Table: settings.UserTable}
 	seq, _ = userHolder.InsertUser(u)
+	u.ID = seq
 
-	users[u.ID] = u
-	// seq++
-	return c.JSON(http.StatusCreated, users[u.ID])
+	return c.JSON(http.StatusCreated, u)
 }
 
-// GetUser : Get an user information
+// GetUser : Get user(s) information
 func GetUser(c echo.Context) error {
 	u := new(dbusers.User)
 
@@ -49,13 +45,18 @@ func GetUser(c echo.Context) error {
 		return err
 	}
 
-	userHolder := dbusers.SQLDB{
-		Table: settings.UserTable,
-	}
-	user, _ := userHolder.GetUser(u.ID)
+	userHolder := dbusers.SQLDB{Table: settings.UserTable}
 
-	// return c.JSON(http.StatusOK, users[u.ID])
-	return c.JSON(http.StatusOK, user)
+	var users []dbusers.User
+	if u.ID > 0 {
+		user, _ := userHolder.GetUser(u.ID)
+
+		users = append(users, user)
+	} else {
+		users, _ = userHolder.GetUsers()
+	}
+
+	return c.JSON(http.StatusOK, users)
 }
 
 // UpdateUser : Change user information
@@ -67,13 +68,10 @@ func UpdateUser(c echo.Context) error {
 		return err
 	}
 
-	userHolder := dbusers.SQLDB{
-		Table: settings.UserTable,
-	}
+	userHolder := dbusers.SQLDB{Table: settings.UserTable}
 	seq, _ = userHolder.UpdateUser(u)
 
-	users[u.ID] = u
-	return c.JSON(http.StatusOK, users[u.ID])
+	return c.JSON(http.StatusOK, u)
 }
 
 // DeleteUser : Delete an user
@@ -85,20 +83,18 @@ func DeleteUser(c echo.Context) error {
 		return err
 	}
 
-	userHolder := dbusers.SQLDB{
-		Table: settings.UserTable,
+	userHolder := dbusers.SQLDB{Table: settings.UserTable}
+	res, err := userHolder.DeleteUser(u)
+	if err != nil {
+		log.Fatal(err)
 	}
-	_, err = userHolder.DeleteUser(u)
 
-	delete(users, u.ID)
-
-	return c.NoContent(http.StatusNoContent)
+	return c.JSON(http.StatusOK, res)
+	// return c.NoContent(http.StatusNoContent)
 }
 
 func main() {
-	userHolder := dbusers.SQLDB{
-		Table: settings.UserTable,
-	}
+	userHolder := dbusers.SQLDB{Table: settings.UserTable}
 	userHolder.CreateTable()
 
 	e := echo.New()
@@ -106,7 +102,7 @@ func main() {
 	config := middleware.JWTConfig{
 		Claims:        &auth.CustomClaims{},
 		SigningKey:    []byte("mySecret"),
-		SigningMethod: "HS512",
+		SigningMethod: settings.JwtSigningMethod,
 	}
 
 	// Middleware

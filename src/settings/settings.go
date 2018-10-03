@@ -14,4 +14,7 @@ const (
 
 	// UserTable : users 테이블명
 	UserTable = "users"
+
+	// JwtSigningMethod : jwt signing method
+	JwtSigningMethod = "HS256"
 )
