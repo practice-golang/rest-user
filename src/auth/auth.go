@@ -1,13 +1,15 @@
 package auth
 
 import (
+	"fmt"
 	"net/http"
+	"settings"
 	"strconv"
 	"time"
 
 	"dbusers"
 
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
 )
 
@@ -24,10 +26,21 @@ func Login(c echo.Context) error {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
-	username := u.Username
-	password := u.Password
+	// username := u.Username
+	// password := u.Password
 
-	if username == "jon" && password == "shhh!" {
+	userHolder := dbusers.SQLDB{
+		Table: settings.UserTable,
+	}
+
+	userExist, _ := userHolder.GetUserLogin(u)
+
+	fmt.Print(u.Username)
+	fmt.Print("/")
+	fmt.Println(u.Password)
+
+	// if username == "jon" && password == "shhh!" {
+	if userExist {
 		claims := &CustomClaims{
 			"Jon Snow", true,
 			jwt.StandardClaims{

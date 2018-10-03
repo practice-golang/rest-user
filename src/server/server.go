@@ -1,6 +1,7 @@
 package main
 
 import (
+	"settings"
 	"auth"
 	"dbusers"
 	"net/http"
@@ -11,7 +12,6 @@ import (
 
 var (
 	users = map[int]*dbusers.User{}
-	table = "users"
 	seq   = 1
 )
 
@@ -31,7 +31,7 @@ func CreateUser(c echo.Context) error {
 	}
 
 	userHolder := dbusers.SQLDB{
-		Table: table,
+		Table: settings.UserTable,
 	}
 	seq, _ = userHolder.InsertUser(u)
 
@@ -49,21 +49,29 @@ func GetUser(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, users[u.ID])
+	userHolder := dbusers.SQLDB{
+		Table: settings.UserTable,
+	}
+	user, _ := userHolder.GetUser(u.ID)
+
+	// return c.JSON(http.StatusOK, users[u.ID])
+	return c.JSON(http.StatusOK, user)
 }
 
 // UpdateUser : Change user information
 func UpdateUser(c echo.Context) error {
 	u := new(dbusers.User)
-	if err := c.Bind(u); err != nil {
+
+	err := c.Bind(u)
+	if err != nil {
 		return err
 	}
-	
+
 	userHolder := dbusers.SQLDB{
-		Table: table,
+		Table: settings.UserTable,
 	}
 	seq, _ = userHolder.UpdateUser(u)
-	
+
 	users[u.ID] = u
 	return c.JSON(http.StatusOK, users[u.ID])
 }
@@ -71,9 +79,16 @@ func UpdateUser(c echo.Context) error {
 // DeleteUser : Delete an user
 func DeleteUser(c echo.Context) error {
 	u := new(dbusers.User)
-	if err := c.Bind(u); err != nil {
+
+	err := c.Bind(u)
+	if err != nil {
 		return err
 	}
+
+	userHolder := dbusers.SQLDB{
+		Table: settings.UserTable,
+	}
+	_, err = userHolder.DeleteUser(u)
 
 	delete(users, u.ID)
 
@@ -82,7 +97,7 @@ func DeleteUser(c echo.Context) error {
 
 func main() {
 	userHolder := dbusers.SQLDB{
-		Table: table,
+		Table: settings.UserTable,
 	}
 	userHolder.CreateTable()
 

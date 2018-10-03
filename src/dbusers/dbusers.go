@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"settings"
 
 	_ "github.com/lib/pq"
 )
@@ -17,14 +18,6 @@ type User struct {
 	Auth     string `json:"auth,omitempty"`
 }
 
-const (
-	dbHost     = "localhost"
-	dbPort     = "5432"
-	dbUser     = "root"
-	dbPassword = ""
-	dbName     = "postgres"
-)
-
 // SQLDB - Books DB Object / User
 type SQLDB struct {
 	DB    *sql.DB
@@ -34,7 +27,7 @@ type SQLDB struct {
 func dbConn() (db *sql.DB) {
 	dbinfo := fmt.Sprintf(
 		"host='%s' port='%s' user='%s' password='%s' dbname='%s' sslmode='disable'",
-		dbHost, dbPort, dbUser, dbPassword, dbName)
+		settings.DbHost, settings.DbPort, settings.DbUser, settings.DbPassword, settings.DbName)
 
 	db, err := sql.Open("postgres", dbinfo)
 	if err != nil {
@@ -70,16 +63,41 @@ func (userHolder *SQLDB) CreateTable() (err error) {
 	return
 }
 
-// GetUsers - cRud
-func (userHolder *SQLDB) GetUsers(id int) (result User, err error) {
-	rows, err := userHolder.DB.Query(`SELECT * FROM "`+userHolder.Table+`" where "_id"=$1`, id)
+// GetUser - cRud
+func (userHolder *SQLDB) GetUser(id int) (result User, err error) {
+	userHolder.DB = dbConn()
+	defer userHolder.DB.Close()
+
+	rows, err := userHolder.DB.Query(`SELECT "id", "username", "email" FROM "`+userHolder.Table+`" WHERE "_id"=$1`, id)
 	if err == nil {
 		for rows.Next() {
-			err = rows.Scan(&result.ID, &result.Username, &result.Email, &result.Auth)
+			// err = rows.Scan(&result.ID, &result.Username, &result.Email, &result.Password, &result.Auth)
+			err = rows.Scan(&result.ID, &result.Username, &result.Email)
 			if err != nil {
 				fmt.Println("Get Book Error: ", err)
 			}
 		}
+	}
+
+	return
+}
+
+// GetUserLogin - cRud
+func (userHolder *SQLDB) GetUserLogin(user *User) (result bool, err error) {
+	userHolder.DB = dbConn()
+	defer userHolder.DB.Close()
+
+	rows, err := userHolder.DB.Query(`SELECT * FROM "`+userHolder.Table+`" WHERE "username"=$1 AND "password"=$2`, user.Username, user.Password)
+	if err == nil {
+		for rows.Next() {
+			fmt.Println(rows)
+			result = true
+			if err != nil {
+				fmt.Println("Get Book Error: ", err)
+			}
+		}
+	} else {
+		fmt.Println("Get Book Error: ", err)
 	}
 
 	return
@@ -118,4 +136,22 @@ func (userHolder *SQLDB) UpdateUser(user *User) (userID int, err error) {
 	userID = user.ID
 
 	return
+}
+
+// DeleteUser - cruD
+func (userHolder *SQLDB) DeleteUser(user *User) (int, error) {
+	userHolder.DB = dbConn()
+	defer userHolder.DB.Close()
+
+	res, err := userHolder.DB.Exec(`DELETE FROM "`+userHolder.Table+`" WHERE "_id"=$1`, user.ID)
+	if err != nil {
+		return 0, err
+	}
+
+	rowsDeleted, err := res.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(rowsDeleted), nil
 }

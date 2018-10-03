@@ -10,10 +10,10 @@ content-type: application/json
 }
 
 ### Create - FormValue로 불러올 경우 / 안 씀
-POST http://localhost:1323/users
-Content-Type: application/x-www-form-urlencoded
+# POST http://localhost:1323/users
+# Content-Type: application/x-www-form-urlencoded
 
-username=mast&password=123&email=haha@haha.com
+# username=mast&password=123&email=haha@haha.com
 
 ### Create
 POST http://localhost:1323/users
@@ -43,7 +43,7 @@ content-type: application/json
 {
     "user": "ㅋㄷ",
     "token": "버스토큰 택시토큰 지하철토큰 뱅기 토큰",
-    "id" : 1
+    "id" : 2
 }
 
 ### JWT - Login
@@ -55,6 +55,15 @@ content-type: application/json
     "password" : "shhh!"
 }
 
+### JWT - Login
+POST http://localhost:1323/login
+content-type: application/json
+
+{
+    "username" : "Master",
+    "password" : "12345"
+}
+
 ### JWT - Restricted contents
 GET http://localhost:1323/restricted
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9uIFNub3ciLCJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTM4NDExMjEwfQ.6nCJyXRwtG56IQQQohBQ1h70nZNj-jP_f4nf7eybC_wV6ONVQXwfHjcWvM2oeY-Krdg45A2lT_vFJ-8cSAMx3A
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9uIFNub3ciLCJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTM4Nzg0NjMzfQ.p-WW2SAcaCHSQbwD3s11tO0NVdoh3qJY6s2qz4sUe6JBo_IZi5VUWLNj9DD8ZdbnEK5M_hFy-tA8aEjcJf_lxQ

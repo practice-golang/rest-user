@@ -5,6 +5,7 @@ INSERT INTO users ("username", "email", "password", "auth") VALUES ('robert', 'r
 
 -- Select / cRud
 SELECT * FROM "users" ORDER BY "_id" ASC LIMIT 100;
+SELECT * FROM "users" WHERE "username"='Master' and "password"='12345';
 
 -- Update / crUd
 UPDATE "users" SET "email"='bob@mail.com', WHERE "username"='robert';

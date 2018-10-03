@@ -14,6 +14,10 @@ require (
 	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
 	golang.org/x/crypto v0.0.0-20181001202700-f7f546618e97 // indirect
 	golang.org/x/sys v0.0.0-20180928133829-e4b3c5e90611 // indirect
+	settings v0.0.0
 )
 
-replace dbusers => ../dbusers
+replace (
+	dbusers => ../dbusers
+	settings => ../settings
+)
