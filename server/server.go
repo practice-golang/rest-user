@@ -1,4 +1,4 @@
-package main // import "https://github.com/practice-golang/rest-user"
+package main // import "rest-user"
 
 import (
 	"auth"

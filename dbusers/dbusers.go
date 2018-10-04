@@ -1,4 +1,4 @@
-package dbusers
+package dbusers // import "dbusers"
 
 import (
 	"database/sql"

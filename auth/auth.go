@@ -1,4 +1,4 @@
-package auth
+package auth // import "auth"
 
 import (
 	"net/http"

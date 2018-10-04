@@ -1,4 +1,4 @@
-module "https://github.com/practice-golang/rest-user"
+module rest-user
 
 require (
 	auth v0.0.0
