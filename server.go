@@ -1,9 +1,9 @@
-package main // import https://github.com/practice-golang/rest-user
+package main // import "https://github.com/practice-golang/rest-user"
 
 import (
-	"log"
 	"auth"
 	"dbusers"
+	"log"
 	"net/http"
 	"settings"
 
