@@ -38,9 +38,20 @@ PUT http://localhost:1323/users
 content-type: application/json
 
 {
-    "id" : 7,
+    "id" : 1,
+    "username" : "master",
+    "email" : "master@nation.gov",
+    "password" : "12345"
+}
+
+### Update
+PUT http://localhost:1323/users
+content-type: application/json
+
+{
+    "id" : 37,
     "username" : "mastery",
-    "email" : "master@middle.earth" ,
+    "email" : "master@middle.earth",
     "password" : "123456"
 }
 
@@ -72,4 +83,8 @@ content-type: application/json
 
 ### JWT - Restricted contents
 GET http://localhost:1323/restricted
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFzdGVyIiwiYWRtaW4iOnRydWUsImV4cCI6MTUzODc5Mzc1N30.Zi9gif_8XD8qklkjPbDlnsWs9xyydPOGkjaFoSInRL4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFzdGVyIiwiYWRtaW4iOnRydWUsImV4cCI6MTUzODg5NDgyMH0.JVM6IKQM7O4fSXZnPQP7-ue8vBHQiV9fmqqJPtXYF7g
+
+### JWT - Restricted contents
+GET http://localhost:1323/restricted
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFzdGVyeSIsImFkbWluIjpmYWxzZSwiZXhwIjoxNTM4ODk1OTEwfQ.NwwzFii9hrGacPB3kKT8l7OD1GGC5rhy1pObTu7uwHU
