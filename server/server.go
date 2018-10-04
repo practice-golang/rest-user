@@ -1,4 +1,4 @@
-package main
+package main // import https://github.com/practice-golang/rest-user
 
 import (
 	"log"
