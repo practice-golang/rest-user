@@ -15,6 +15,11 @@ const (
 	// UserTable : users 테이블명
 	UserTable = "users"
 
-	// JwtSigningMethod : jwt signing method
+	// JwtSigningMethod : JWT signing method
 	JwtSigningMethod = "HS256"
+)
+
+var (
+	// JwtSigningKey : JWT Key
+	JwtSigningKey = []byte("mySecret")
 )

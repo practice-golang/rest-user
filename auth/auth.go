@@ -60,7 +60,7 @@ func Login(c echo.Context) error {
 
 		token := jwt.NewWithClaims(jwtMethod, claims)
 
-		t, err := token.SignedString([]byte("mySecret"))
+		t, err := token.SignedString(settings.JwtSigningKey)
 		if err != nil {
 			return err
 		}

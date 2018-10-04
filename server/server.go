@@ -101,7 +101,7 @@ func main() {
 
 	config := middleware.JWTConfig{
 		Claims:        &auth.CustomClaims{},
-		SigningKey:    []byte("mySecret"),
+		SigningKey:    settings.JwtSigningKey,
 		SigningMethod: settings.JwtSigningMethod,
 	}
 
