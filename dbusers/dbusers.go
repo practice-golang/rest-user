@@ -1,9 +1,10 @@
-package dbusers
+package dbusers // import "https://local/me/dbusers"
 
 import (
 	"database/sql"
 	"fmt"
 	"log"
+
 	"settings"
 
 	_ "github.com/lib/pq"

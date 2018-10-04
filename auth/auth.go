@@ -1,4 +1,4 @@
-package auth
+package auth // import "https://local/me/auth"
 
 import (
 	"net/http"

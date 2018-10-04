@@ -1,4 +1,4 @@
-package settings
+package settings // import "https://local/me/settings"
 
 const (
 	// DbHost : 주소
