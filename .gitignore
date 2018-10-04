@@ -3,4 +3,5 @@ pkg
 vendor
 pgdata
 pglog
+server.exe
 .vscode
