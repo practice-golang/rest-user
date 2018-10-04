@@ -12,7 +12,7 @@ Files
 * request.http - http queries to test
 
 Build
-* If you want mix $GOPATH/pkg from several projects, you should use vendor.
+* If you want to manage separated packages from projects, you should use vendor. Throw out $GOPATH/pkg
 ```sh
 cd server
 
