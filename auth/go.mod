@@ -1,4 +1,4 @@
-module "https://local/me/auth"
+module auth
 
 require (
 	dbusers v0.0.0

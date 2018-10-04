@@ -1,1 +1,1 @@
-module "https://local/me/settings"
+module settings

@@ -1,4 +1,4 @@
-package dbusers // import "https://local/me/dbusers"
+package dbusers
 
 import (
 	"database/sql"
