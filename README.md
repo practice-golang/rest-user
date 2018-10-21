@@ -8,7 +8,7 @@
 * sql - SQL queries to test
 
 ## Files
-* pgdata.zip - pgsql data folder, unzip and run ```pg_ctl.exe -D .\\pgdata -l pglog start```
+* pgdata.zip - ```pgsql 9.6``` data folder, unzip and run ```pg_ctl.exe -D .\\pgdata -l pglog start```
 * request.http - http queries to test
 
 ## Build
