@@ -83,8 +83,4 @@ content-type: application/json
 
 ### JWT - Restricted contents
 GET http://localhost:1323/restricted
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFzdGVyIiwiYWRtaW4iOnRydWUsImV4cCI6MTUzODg5NDgyMH0.JVM6IKQM7O4fSXZnPQP7-ue8vBHQiV9fmqqJPtXYF7g
-
-### JWT - Restricted contents
-GET http://localhost:1323/restricted
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFzdGVyeSIsImFkbWluIjpmYWxzZSwiZXhwIjoxNTM4ODk1OTEwfQ.NwwzFii9hrGacPB3kKT8l7OD1GGC5rhy1pObTu7uwHU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFzdGVyIiwiYWRtaW4iOnRydWUsImV4cCI6MTU1MDgzMjE2OH0.6M-tKTUiPgtM0wVVJQqu8kZh0r1E7jeWBNVCMBDdsaQ

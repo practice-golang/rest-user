@@ -78,5 +78,6 @@ func Restricted(c echo.Context) error {
 	claims := user.Claims.(*CustomClaims)
 	name := claims.Name
 
-	return c.String(http.StatusOK, "Welcome "+name+" ! / Admin: "+strconv.FormatBool(claims.Admin))
+	// return c.String(http.StatusOK, "Welcome "+name+" ! / Admin: "+strconv.FormatBool(claims.Admin))
+	return c.JSON(http.StatusOK, "Welcome "+name+" ! / Admin: "+strconv.FormatBool(claims.Admin))
 }
