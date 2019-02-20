@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS "users"
 (
 	"_id" serial NOT NULL,
 	"username" character varying(255) NOT NULL,
+	"fullname" character varying(255) NOT NULL,
 	"email" character varying(255) NOT NULL,
 	"password" character varying(255) NOT NULL,
 	"auth" character varying(255) NOT NULL,

@@ -1,7 +1,7 @@
 -- Insert / Crud
-INSERT INTO users ("username", "email", "password", "auth") VALUES ('john', 'john@mail.com', '1234', '0');
-INSERT INTO users ("username", "email", "password", "auth") VALUES ('jane', 'jane@mail.com', '5678', '0');
-INSERT INTO users ("username", "email", "password", "auth") VALUES ('robert', 'robert@mail.com', 'qwer', '1');
+INSERT INTO users ("username", "username", "email", "password", "auth") VALUES ('john', 'John Doe', 'john@mail.com', '1234', '0');
+INSERT INTO users ("username", "username", "email", "password", "auth") VALUES ('jane', 'Jane Eyre', 'jane@mail.com', '5678', '0');
+INSERT INTO users ("username", "username", "email", "password", "auth") VALUES ('robert', 'Robert Shin', 'robert@mail.com', 'qwer', '1');
 
 -- Select / cRud
 SELECT * FROM "users" ORDER BY "_id" ASC LIMIT 100;
