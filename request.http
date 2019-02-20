@@ -29,6 +29,7 @@ content-type: application/json
 
 {
     "username" : "mast",
+    "fullname" : "마스터",
     "email" : "liverty@liberty.union",
     "password" : "123"
 }
@@ -40,6 +41,7 @@ content-type: application/json
 {
     "id" : 1,
     "username" : "master",
+    "fullname" : "마스터",
     "email" : "master@nation.gov",
     "password" : "12345"
 }
@@ -51,6 +53,7 @@ content-type: application/json
 {
     "id" : 37,
     "username" : "mastery",
+    "fullname" : "마스터",
     "email" : "master@middle.earth",
     "password" : "123456"
 }
@@ -68,8 +71,8 @@ POST http://localhost:1323/login
 content-type: application/json
 
 {
-    "username" : "master",
-    "password" : "12345"
+    "username" : "bab2",
+    "password" : "123"
 }
 
 ### JWT - Login

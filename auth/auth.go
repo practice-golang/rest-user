@@ -3,7 +3,6 @@ package auth // import "auth"
 import (
 	"net/http"
 	"settings"
-	"strconv"
 	"time"
 
 	"dbusers"
@@ -76,8 +75,8 @@ func Login(c echo.Context) error {
 func Restricted(c echo.Context) error {
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(*CustomClaims)
-	name := claims.Name
+	// name := claims.Name
 
 	// return c.String(http.StatusOK, "Welcome "+name+" ! / Admin: "+strconv.FormatBool(claims.Admin))
-	return c.JSON(http.StatusOK, "Welcome "+name+" ! / Admin: "+strconv.FormatBool(claims.Admin))
+	return c.JSON(http.StatusOK, claims)
 }

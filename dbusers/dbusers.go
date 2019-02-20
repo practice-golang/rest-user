@@ -14,6 +14,7 @@ import (
 type User struct {
 	ID       int    `json:"id,omitempty"`
 	Username string `json:"username,omitempty"`
+	Fullname string `json:"fullname,omitempty"`
 	Email    string `json:"email,omitempty"`
 	Password string `json:"password,omitempty"`
 	Auth     string `json:"auth,omitempty"`
@@ -48,6 +49,7 @@ func (userHolder *SQLDB) CreateTable() (err error) {
 	(
 		"_id" serial NOT NULL,
 		"username" character varying(255) NOT NULL,
+		"fullname" character varying(255) NOT NULL,
 		"email" character varying(255) NOT NULL,
 		"password" character varying(255) NOT NULL,
 		"auth" character varying(255) NOT NULL,
@@ -69,12 +71,12 @@ func (userHolder *SQLDB) GetUser(id int) (result User, err error) {
 	userHolder.DB = dbConn()
 	defer userHolder.DB.Close()
 
-	rows, err := userHolder.DB.Query(`SELECT "_id", "username", "email" FROM "`+userHolder.Table+`" WHERE "_id"=$1`, id)
+	rows, err := userHolder.DB.Query(`SELECT "_id", "username", "fullname", "email" FROM "`+userHolder.Table+`" WHERE "_id"=$1`, id)
 	// rows, err := userHolder.DB.Query(`SELECT * FROM "`+userHolder.Table+`" WHERE "_id"=$1`, id)
 	if err == nil {
 		for rows.Next() {
 			// err = rows.Scan(&result.ID, &result.Username, &result.Email, &result.Password, &result.Auth)
-			err = rows.Scan(&result.ID, &result.Username, &result.Email)
+			err = rows.Scan(&result.ID, &result.Username, &result.Fullname, &result.Email)
 			if err != nil {
 				log.Fatal("Error: ", err)
 			}
@@ -89,11 +91,11 @@ func (userHolder *SQLDB) GetUsers() (results []User, err error) {
 	userHolder.DB = dbConn()
 	defer userHolder.DB.Close()
 
-	rows, err := userHolder.DB.Query(`SELECT "_id", "username", "email" FROM "` + userHolder.Table + `" ORDER BY "_id" ASC`)
+	rows, err := userHolder.DB.Query(`SELECT "_id", "username", "fullname", "email" FROM "` + userHolder.Table + `" ORDER BY "_id" ASC`)
 	if err == nil {
 		for rows.Next() {
 			var result User
-			err = rows.Scan(&result.ID, &result.Username, &result.Email)
+			err = rows.Scan(&result.ID, &result.Username, &result.Fullname, &result.Email)
 			if err != nil {
 				log.Fatal("Error: ", err)
 			}
@@ -132,8 +134,8 @@ func (userHolder *SQLDB) InsertUser(user *User) (userID int, err error) {
 	defer userHolder.DB.Close()
 
 	err = userHolder.DB.QueryRow(
-		`INSERT INTO "`+userHolder.Table+`"("username","email","password","auth") VALUES($1,$2,$3,$4) RETURNING _id`,
-		user.Username, user.Email, user.Password, "none").Scan(&userID)
+		`INSERT INTO "`+userHolder.Table+`"("username","fullname","email","password","auth") VALUES($1,$2,$3,$4,$5) RETURNING _id`,
+		user.Username, user.Fullname, user.Email, user.Password, "none").Scan(&userID)
 	if err != nil {
 		userID = 0
 		log.Fatal(err)
@@ -148,9 +150,9 @@ func (userHolder *SQLDB) UpdateUser(user *User) (userID int, err error) {
 	defer userHolder.DB.Close()
 
 	_, err = userHolder.DB.Exec(
-		`UPDATE "`+userHolder.Table+`" SET "username"=$1,"email"=$2, "password"=$3 WHERE "_id"=$4 RETURNING _id`,
+		`UPDATE "`+userHolder.Table+`" SET "username"=$1, fullname"=$2, "email"=$3, "password"=$4 WHERE "_id"=$5 RETURNING _id`,
 		// user.Username, user.Email, user.Password, user.ID).Scan(&userID)
-		user.Username, user.Email, user.Password, user.ID)
+		user.Username, user.Fullname, user.Email, user.Password, user.ID)
 	if err != nil {
 		userID = 0
 		log.Fatal(err)
